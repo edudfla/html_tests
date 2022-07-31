@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style type="text/css">
+            #my_body {
+                overflow: hidden;
+            }
+            #my_div {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+            }
+            #my_canvas {
+                background-color: pink;
+            }
+        </style>
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded",
+                (event) => {
+                    const resizeObserver = new ResizeObserver((entries) => {
+                        for (let entry of entries) {
+                            if (entry.contentBoxSize) {
+                                const contentBoxSize = Array.isArray(entry.contentBoxSize) ?
+                                    entry.contentBoxSize[0] :
+                                    entry.contentBoxSize;
+                                const my_canvas = document.getElementById("my_canvas")
+                                my_canvas.style.width = `${contentBoxSize.inlineSize}px`;
+                                my_canvas.style.height = `${contentBoxSize.blockSize}px`;
+                                console.log(`my_canvas width is ${my_canvas.style.width} and height is ${my_canvas.style.height}`);
+                            }
+                        }
+                    })
+                    resizeObserver.observe(document.getElementById("my_div"));
+                });
+        </script>
+    </head>
+    <body id="my_body">
+        <div id="my_div">
+            <canvas id="my_canvas"></canvas>
+        </div>
+    </body>
+</html>
